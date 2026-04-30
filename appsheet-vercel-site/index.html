@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#111827" />
+    <title>FRC Worlds Hot Matches</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-main">
+        <h1>FRC Worlds Hot Matches</h1>
+        <p>Live match watch list powered by AppSheet</p>
+      </div>
+      <a id="open-app-link" class="open-link" href="#" target="_blank" rel="noreferrer">Open App</a>
+    </header>
+
+    <main class="app-shell">
+      <div id="setup-message" class="setup-message" hidden>
+        <h2>AppSheet URL needed</h2>
+        <p>Edit <code>config.js</code> and set <code>appsheetUrl</code> to your AppSheet browser link.</p>
+      </div>
+
+      <iframe
+        id="appsheet-frame"
+        title="FRC Worlds Hot Matches AppSheet viewer"
+        allowfullscreen>
+      </iframe>
+    </main>
+
+    <script src="./config.js"></script>
+    <script src="./main.js"></script>
+  </body>
+</html>
