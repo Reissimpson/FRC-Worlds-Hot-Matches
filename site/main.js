@@ -27,4 +27,9 @@
 
   frame.src = appsheetUrl;
   openLink.href = appsheetUrl;
+  setupMessage.hidden = false;
+  setupMessage.innerHTML = `
+    <h2>Having trouble seeing the embedded app?</h2>
+    <p>AppSheet may block iframe embedding unless the app is public and embedding is enabled. Use the Open App button above to launch it directly.</p>
+  `;
 })();
