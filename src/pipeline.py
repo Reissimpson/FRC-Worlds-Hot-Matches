@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from datetime import datetime, timezone
 from typing import Iterable
 from zoneinfo import ZoneInfo
@@ -10,7 +11,16 @@ from src.statbotics_client import StatboticsClient
 from src.tba_client import TBAClient
 
 
-DISPLAY_TIME_ZONE = ZoneInfo("America/New_York")
+DEFAULT_DISPLAY_TIME_ZONE = "America/New_York"
+
+
+def display_time_zone() -> ZoneInfo:
+    timezone_name = os.getenv("DISPLAY_TIMEZONE", DEFAULT_DISPLAY_TIME_ZONE)
+    try:
+        return ZoneInfo(timezone_name)
+    except Exception:
+        print(f"ERROR Unknown DISPLAY_TIMEZONE '{timezone_name}', using {DEFAULT_DISPLAY_TIME_ZONE}")
+        return ZoneInfo(DEFAULT_DISPLAY_TIME_ZONE)
 
 
 def parse_team_number(team_key: str) -> int | None:
@@ -34,7 +44,15 @@ def best_match_time(match: dict) -> int | None:
 def iso_time(unix_time: int | None) -> str | None:
     if not unix_time:
         return None
-    return datetime.fromtimestamp(unix_time, tz=DISPLAY_TIME_ZONE).isoformat()
+    return datetime.fromtimestamp(unix_time, tz=display_time_zone()).isoformat()
+
+
+def eastern_display_time(unix_time: int | None) -> str | None:
+    if not unix_time:
+        return None
+    local_time = datetime.fromtimestamp(unix_time, tz=display_time_zone())
+    hour = local_time.strftime("%I").lstrip("0") or "0"
+    return f"{local_time:%a} {local_time.month}/{local_time.day} {hour}:{local_time:%M %p} {local_time.tzname()}"
 
 
 def is_upcoming_match(match: dict, comp_levels: Iterable[str] = ("qm",)) -> bool:
@@ -104,6 +122,7 @@ def build_match_prediction(match: dict, team_epas: dict[int, TeamEPA]) -> MatchP
         set_number=match.get("set_number"),
         match_number=int(match.get("match_number") or 0),
         display_time=iso_time(unix_time),
+        display_time_est=eastern_display_time(unix_time),
         unix_time=unix_time,
         red_teams=red_teams,
         blue_teams=blue_teams,

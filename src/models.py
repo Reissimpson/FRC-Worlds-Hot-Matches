@@ -27,6 +27,7 @@ class MatchPrediction(BaseModel):
     set_number: int | None = None
     match_number: int
     display_time: str | None = None
+    display_time_est: str | None = None
     unix_time: int | None = None
     red_teams: list[int]
     blue_teams: list[int]

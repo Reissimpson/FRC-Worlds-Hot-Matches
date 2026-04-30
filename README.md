@@ -57,6 +57,8 @@ SEASON_YEAR=2026
 
 `SEASON_YEAR` is optional. If it is not set, the script uses the current year.
 
+`DISPLAY_TIMEZONE` is optional. It defaults to `America/New_York`.
+
 ## Run With Inline Events
 
 ```bash
@@ -102,6 +104,8 @@ The script clears and rewrites a worksheet named `Matches` using the same column
 5. Choose replace current sheet or insert new sheet.
 
 For AppSheet, keep the header row unchanged.
+
+Use `display_time_est` for AppSheet views if AppSheet keeps converting the ISO `display_time` column. `display_time_est` is exported as plain text, such as `Thu 4/30 9:00 AM EDT`, so AppSheet should not shift it between time zones. Sort by `watch_order`, not by the text display time.
 
 The match CSV includes readable alliance slots:
 
