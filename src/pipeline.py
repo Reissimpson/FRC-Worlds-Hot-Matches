@@ -52,7 +52,7 @@ def eastern_display_time(unix_time: int | None) -> str | None:
         return None
     local_time = datetime.fromtimestamp(unix_time, tz=display_time_zone())
     hour = local_time.strftime("%I").lstrip("0") or "0"
-    return f"{local_time:%a} {local_time.month}/{local_time.day} {hour}:{local_time:%M %p} {local_time.tzname()}"
+    return f"{hour}:{local_time:%M %p}"
 
 
 def is_upcoming_match(match: dict, comp_levels: Iterable[str] = ("qm",)) -> bool:
